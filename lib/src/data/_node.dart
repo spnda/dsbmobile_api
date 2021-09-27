@@ -1,4 +1,4 @@
-import 'entry.dart';
+import '_entry.dart';
 
 class DSBMobileNode {
   /// The index of this entry in the parent list.

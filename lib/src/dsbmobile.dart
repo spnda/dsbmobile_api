@@ -6,22 +6,34 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '_dsbexception.dart';
-import 'node.dart';
+import 'data/_node.dart';
+import 'utils/_dsbutils.dart';
 
 /// API entrypoint for all functionality for DSBMobile.
 ///
 /// This only enables getting the data, it does not cache
 /// or format any data itself
 class DSBMobile {
+  /// We default to German, as DSBMobile is mainly used
+  /// in German speaking countries.
+  static String defaultLocale = 'de';
+
   final Map<String, String> _args = {};
+
+  final _dsbUtils = DSBUtils();
 
   DSBMobile();
 
-  /// Login.
+  /// Get the instance of [DSBUtils] which can parse
+  /// [DSBMobileNode] and [DSBMobileEntry] to friendly data.
+  DSBUtils get utils => _dsbUtils;
+
+  /// Login. This function can be called again with new login
+  /// information and locale information and will be updated
+  /// on the next call to [get].
   ///
   /// [locale] should be any ISO 639-1 language code. If not
-  /// specified, this will default to [Intl.defaultLocale]
-  /// or just 'en'.
+  /// specified, this will default to [DSBMobile.defaultLocale].
   ///
   /// Does not call any API directly, and is therefore not
   /// async.
@@ -31,7 +43,7 @@ class DSBMobile {
     _args.addAll({
       'UserId': username,
       'UserPw': password,
-      'Language': locale ?? Intl.defaultLocale ?? 'en',
+      'Language': locale ?? defaultLocale,
       'Device': 'Nexus 4',
       'AppId': Uuid().v4(),
       'AppVersion': '2.5.9',

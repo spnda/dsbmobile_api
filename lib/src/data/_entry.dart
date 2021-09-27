@@ -41,6 +41,9 @@ class DSBMobileEntry {
     entry.title = json['Title'];
     entry.detail = json['Detail'];
     entry._preview = json['Preview'];
+    if (entry._preview != null && entry._preview!.isEmpty) {
+      entry._preview = null;
+    }
     for (final child in (json['Childs'] ?? [])) {
       entry.children.add(DSBMobileEntry.parse(child));
     }
@@ -51,5 +54,6 @@ class DSBMobileEntry {
   /// Throws a [FormatException] if the date string cannot be parsed
   DateTime get getDateTime => DateTime.parse(date);
 
-  String get previewImage => 'https://dsbmobile.de/data/$_preview';
+  String? get previewImage =>
+      _preview != null ? 'https://dsbmobile.de/data/$_preview' : null;
 }
