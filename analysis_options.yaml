@@ -1,0 +1,13 @@
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  errors:
+    invalid_assignment: warning
+    missing_return: error
+    dead_code: info
+
+linter:
+  rules:
+    lines_longer_than_80_chars: false
+    prefer_relative_imports: true
+    directives_ordering: true
