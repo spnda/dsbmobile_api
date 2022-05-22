@@ -1,5 +1,4 @@
 import '../../dsbmobile_api.dart';
-import '_substitution_plan.dart';
 
 class DSBUtils {
   /// Get's a stream of all substitution plans from the given list of nodes. The [name]
@@ -9,14 +8,14 @@ class DSBUtils {
   /// WARN: This might be a very specific for my use-case and will not work for
   /// everybody, but it's gonna be here anyway as a reference implementation for this.
   Stream<SubstitutionPlan> getAllSubstitutionPlans(List<DSBMobileNode> nodes,
-      {required String name}) async* {
+      {String? name}) async* {
     for (final node in nodes) {
       for (final innerNode in node.children) {
         if (innerNode.root == null) continue;
 
         for (final child in innerNode.root!.children) {
           for (final plan in child.children) {
-            yield SubstitutionPlan(entry: plan);
+            yield SubstitutionPlan(entry: plan, title: child.title);
           }
         }
       }
